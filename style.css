@@ -1,0 +1,9 @@
+body {
+  background-color: turquoise;
+}
+
+canvas {
+    display: block;
+    margin: auto;
+    border: white dashed 3px;
+  }
