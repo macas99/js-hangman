@@ -3,7 +3,36 @@ body {
 }
 
 canvas {
-    display: block;
-    margin: auto;
-    border: white dashed 3px;
-  }
+  display: block;
+  margin: auto;
+  border: white dashed 3px;
+}
+
+.game {
+  max-width: auto;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 20%;
+  left: 50%;
+}
+
+.button {
+  background-color: turquoise;
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+  color: #FFFFFF;
+  padding: 15px 30px;
+  font-size: 15px;
+}
+
+.button:active,
+.button:hover {
+  border: 2px solid #FFFFFF;
+}
+
+.start-game {
+  margin-top: 20%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
