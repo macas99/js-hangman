@@ -1,13 +1,13 @@
 const canvas = document.getElementById("canvas");
 
+let current_word = "";
 // window.onload = drawCanvas();
 
 function requestWord() {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", "https://random-words-api.vercel.app/word/noun", false);
     xmlHttp.send(null);
-    let res = JSON.parse(xmlHttp.responseText);
-    console.log(res[0].word);
+    return JSON.parse(xmlHttp.responseText)[0].word;
 }
 
 function drawCanvas() {
@@ -61,4 +61,9 @@ document.addEventListener("keydown", function (event) {
         drawCanvas().leg2();
         requestWord();
     }
+});
+
+$(".start-game").on("click", function () {
+    $(this).attr("hidden", true);
+    current_word = requestWord();
 });
