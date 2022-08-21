@@ -1,14 +1,15 @@
 const canvas = document.getElementById("canvas");
 
 let gameWord = "";
+let count = 0;
 
 function requestWord() {
-    // var xmlHttp = new XMLHttpRequest();
+    var xmlHttp = new XMLHttpRequest();
     // check if hyphenated
-    // xmlHttp.open("GET", "https://random-words-api.vercel.app/word/noun", false);
-    // xmlHttp.send(null);
-    // return JSON.parse(xmlHttp.responseText)[0].word;
-    return "Test";
+    xmlHttp.open("GET", "https://random-words-api.vercel.app/word/noun", false);
+    xmlHttp.send(null);
+    return JSON.parse(xmlHttp.responseText)[0].word;
+    // return "Test";
 }
 
 function initiateWord() {
@@ -23,6 +24,8 @@ function checkInput(char) {
     let gameWordAllCaps = gameWord.toUpperCase();
     if (gameWordAllCaps.includes(char.toUpperCase())) {
         revealLetter(char);
+    } else {
+        punish();
     }
 }
 
@@ -49,6 +52,15 @@ function getIndexes(char) {
         indexes.push(result.index);
     }
     return indexes;
+}
+
+function punish() {
+    if (count < 10) {
+        Object.values(drawCanvas())[count]();
+        count++;
+    } else {
+        console.log("Game Over");
+    }
 }
 
 function drawCanvas() {
@@ -93,20 +105,6 @@ document.addEventListener("keydown", function (event) {
 
     if (key.length === 1 && /[a-zA-Z]/.test(key)) {
         checkInput(key);
-    }
-
-    if (key === '1') {
-        drawCanvas().frame1();
-        drawCanvas().frame2();
-        drawCanvas().frame3();
-        drawCanvas().frame4();
-        drawCanvas().head();
-        drawCanvas().body();
-        drawCanvas().arm1();
-        drawCanvas().arm2();
-        drawCanvas().leg1();
-        drawCanvas().leg2();
-        requestWord();
     }
 });
 
