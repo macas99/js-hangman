@@ -1,4 +1,5 @@
 const canvas = document.getElementById("canvas");
+const keyboard = document.getElementById("mouse-input");
 
 let gameWord = "";
 let count = 0;
@@ -122,4 +123,14 @@ $(".start-game").on("click", function () {
     initiateWord();
     $(".game").removeClass("hidden");
     gameInProgress = true;
+    loadKeyboard();
 });
+
+function loadKeyboard() {
+    for (let i = 65; i < 91; i++) {
+        let button = document.createElement("button");
+        button.innerText = String.fromCharCode(i);
+        button.classList.add("button");
+        keyboard.append(button);
+    }
+}

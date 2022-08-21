@@ -12,20 +12,20 @@ canvas {
 
 .game {
   width: 85vw;
-  max-width: 35em;
+  max-width: 350px;
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 30%;
+  top: 40%;
   left: 50%;
+  text-align: center;
+  padding: 10px;
 }
 
 .button {
   background-color: turquoise;
   border: 2px solid #FFFFFF;
-  border-radius: 10px;
   color: #FFFFFF;
-  padding: 15px 30px;
-  font-size: 15px;
+  border-radius: 4px;
 }
 
 .button:active,
@@ -38,15 +38,33 @@ canvas {
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border: 2px solid #FFFFFF;
+  padding: 15px 30px;
+  font-size: 15px;
+  border-radius: 10px;
 }
 
 .game-string {
   font-size: 2.5em;
-  margin-top: 20px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
 }
 
-.hidden  {
+.hidden {
   display: none;
+}
+
+#mouse-input {
+  margin-top: 30px;
+  left: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}
+
+#mouse-input button {
+  height: 2.4em;
+  width: 2.4em;
 }
