@@ -1,12 +1,54 @@
 const canvas = document.getElementById("canvas");
 
-let game_word = "";
+let gameWord = "";
 
 function requestWord() {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "https://random-words-api.vercel.app/word/noun", false);
-    xmlHttp.send(null);
-    return JSON.parse(xmlHttp.responseText)[0].word;
+    // var xmlHttp = new XMLHttpRequest();
+    // check if hyphenated
+    // xmlHttp.open("GET", "https://random-words-api.vercel.app/word/noun", false);
+    // xmlHttp.send(null);
+    // return JSON.parse(xmlHttp.responseText)[0].word;
+    return "Test";
+}
+
+function initiateWord() {
+    let guessString = "";
+    gameWord.split('').forEach(function () {
+        guessString += "_";
+    });
+    $(".game-string").text(guessString);
+}
+
+function checkInput(char) {
+    let gameWordAllCaps = gameWord.toUpperCase();
+    if (gameWordAllCaps.includes(char.toUpperCase())) {
+        revealLetter(char);
+    }
+}
+
+function revealLetter(char) {
+    let indexes = getIndexes(char);
+    let gameString = String($(".game-string").text());
+    let newGameString = ""
+
+    for (let i = 0; i < gameString.length; i++) {
+        if (indexes.includes(i)) {
+            newGameString += char.toUpperCase();
+        } else {
+            newGameString += gameString.charAt(i);
+        }
+    }
+
+    $(".game-string").text(newGameString);
+}
+
+function getIndexes(char) {
+    let regex = new RegExp(char, "gi")
+    let result, indexes = [];
+    while ((result = regex.exec(gameWord))) {
+        indexes.push(result.index);
+    }
+    return indexes;
 }
 
 function drawCanvas() {
@@ -47,7 +89,13 @@ function drawCanvas() {
 }
 
 document.addEventListener("keydown", function (event) {
-    if (event.key === '1') {
+    let key = event.key;
+
+    if (key.length === 1 && /[a-zA-Z]/.test(key)) {
+        checkInput(key);
+    }
+
+    if (key === '1') {
         drawCanvas().frame1();
         drawCanvas().frame2();
         drawCanvas().frame3();
@@ -64,17 +112,6 @@ document.addEventListener("keydown", function (event) {
 
 $(".start-game").on("click", function () {
     $(this).attr("hidden", true);
-    game_word = requestWord();
-    initiate_word();
+    gameWord = requestWord();
+    initiateWord();
 });
-
-function initiate_word() {
-    guess_string = "";
-    game_word.split('').forEach(function(c) {
-        guess_string += "_";
-    });
-    console.log(game_word);
-    console.log(guess_string);
-
-    $(".game-string").text(guess_string);
-}
