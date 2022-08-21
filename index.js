@@ -2,6 +2,7 @@ const canvas = document.getElementById("canvas");
 
 let gameWord = "";
 let count = 0;
+let gameInProgress = false;
 
 function requestWord() {
     var xmlHttp = new XMLHttpRequest();
@@ -43,6 +44,12 @@ function revealLetter(char) {
     }
 
     $(".game-string").text(newGameString);
+
+    if (newGameString === gameWord.toUpperCase()) {
+        gameInProgress = false;
+        console.log("WON");
+    }
+
 }
 
 function getIndexes(char) {
@@ -55,11 +62,12 @@ function getIndexes(char) {
 }
 
 function punish() {
-    if (count < 10) {
-        Object.values(drawCanvas())[count]();
-        count++;
-    } else {
+    Object.values(drawCanvas())[count]();
+    count++;
+
+    if (count === 10) {
         console.log("Game Over");
+        gameInProgress = false;
     }
 }
 
@@ -103,7 +111,7 @@ function drawCanvas() {
 document.addEventListener("keydown", function (event) {
     let key = event.key;
 
-    if (key.length === 1 && /[a-zA-Z]/.test(key)) {
+    if (gameInProgress && key.length === 1 && /[a-zA-Z]/.test(key)) {
         checkInput(key);
     }
 });
@@ -112,4 +120,5 @@ $(".start-game").on("click", function () {
     $(this).attr("hidden", true);
     gameWord = requestWord();
     initiateWord();
+    gameInProgress = true;
 });
