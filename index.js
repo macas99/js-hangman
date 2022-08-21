@@ -5,12 +5,12 @@ let count = 0;
 let gameInProgress = false;
 
 function requestWord() {
-    var xmlHttp = new XMLHttpRequest();
+    // var xmlHttp = new XMLHttpRequest();
     // check if hyphenated
-    xmlHttp.open("GET", "https://random-words-api.vercel.app/word/noun", false);
-    xmlHttp.send(null);
-    return JSON.parse(xmlHttp.responseText)[0].word;
-    // return "Test";
+    // xmlHttp.open("GET", "https://random-words-api.vercel.app/word/noun", false);
+    // xmlHttp.send(null);
+    // return JSON.parse(xmlHttp.responseText)[0].word;
+    return "Test";
 }
 
 function initiateWord() {
@@ -120,5 +120,6 @@ $(".start-game").on("click", function () {
     $(this).attr("hidden", true);
     gameWord = requestWord();
     initiateWord();
+    $(".game").removeClass("hidden");
     gameInProgress = true;
 });
