@@ -1,5 +1,7 @@
 body {
   background-color: turquoise;
+  font-family: 'Raleway', sans-serif;
+  color: #FFFFFF;
 }
 
 canvas {
@@ -30,9 +32,18 @@ canvas {
   border: 2px solid #FFFFFF;
 }
 
-.start-game {
-  margin-top: 20%;
+.input-center {
   position: absolute;
+  margin-top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.start-game {
+  margin-top: 20%;
+}
+
+.game-string {
+  font-size: 2.5em;
+  margin-top: 20%;
 }

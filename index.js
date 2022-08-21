@@ -1,7 +1,6 @@
 const canvas = document.getElementById("canvas");
 
-let current_word = "";
-// window.onload = drawCanvas();
+let game_word = "";
 
 function requestWord() {
     var xmlHttp = new XMLHttpRequest();
@@ -65,5 +64,17 @@ document.addEventListener("keydown", function (event) {
 
 $(".start-game").on("click", function () {
     $(this).attr("hidden", true);
-    current_word = requestWord();
+    game_word = requestWord();
+    initiate_word();
 });
+
+function initiate_word() {
+    guess_string = "";
+    game_word.split('').forEach(function(c) {
+        guess_string += "_";
+    });
+    console.log(game_word);
+    console.log(guess_string);
+
+    $(".game-string").text(guess_string);
+}
