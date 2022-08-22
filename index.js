@@ -63,6 +63,7 @@ function getIndexes(char) {
 }
 
 function punish() {
+    console.log("punishing: " + count);
     Object.values(drawCanvas())[count]();
     count++;
 
@@ -131,6 +132,12 @@ function loadKeyboard() {
         let button = document.createElement("button");
         button.innerText = String.fromCharCode(i);
         button.classList.add("button");
+        button.addEventListener("click", function () {
+            if (gameInProgress) {
+                checkInput(String.fromCharCode(i));
+            }
+        });
         keyboard.append(button);
+
     }
 }
