@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: turquoise;
   font-family: 'Raleway', sans-serif;
@@ -17,6 +21,7 @@ canvas {
   font-weight: bold;
   font-size: 60px;
 }
+
 .game {
   width: 85vw;
   max-width: 350px;
@@ -95,4 +100,5 @@ canvas {
 #mouse-input button {
   height: 2.7em;
   width: 2.4em;
+  justify-content: center;
 }
