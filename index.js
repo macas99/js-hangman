@@ -4,12 +4,13 @@ const keyboard = document.getElementById("mouse-input");
 let gameWord = "";
 let count = 0;
 let gameInProgress = false;
+let inputHistory = [];
 
 async function requestWord() {
     // const resp = await fetch("https://random-words-api.vercel.app/word/noun");
     // const jsonData = await resp.json();
     // return jsonData[0].word;
-    return "tete";
+    return "Connoisseur";
 }
 
 function initiateWord() {
@@ -21,12 +22,14 @@ function initiateWord() {
 }
 
 function checkInput(char) {
+    let charCap = char.toUpperCase();
     let gameWordAllCaps = gameWord.toUpperCase();
-    if (gameWordAllCaps.includes(char.toUpperCase())) {
+    if (gameWordAllCaps.includes(charCap)) {
         revealLetter(char);
     } else {
         punish();
     }
+    disableChar(charCap);
 }
 
 function revealLetter(char) {
@@ -66,6 +69,15 @@ function punish() {
     if (count === 10) {
         gameOver();
     }
+}
+
+function disableChar(char) {
+    if (!inputHistory.includes(char)) {
+        inputHistory.push(char);
+    }
+    $(".button-" + char).removeClass("button");
+    $(".button-" + char).addClass("disabled")
+    $(".button-" + char).attr("disabled", true);
 }
 
 function gameOver() {
@@ -130,10 +142,18 @@ function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+function resetButtons() {
+    $(".disabled").each(function () {
+        $(this).removeClass("disabled");
+        $(this).addClass("button");
+        $(this).attr("disabled", false);
+    });
+}
+
 document.addEventListener("keydown", function (event) {
     let key = event.key;
-
-    if (gameInProgress && key.length === 1 && /[a-zA-Z]/.test(key)) {
+    let disabled = inputHistory.includes(key.toUpperCase);
+    if (gameInProgress && key.length === 1 && /[a-zA-Z]/.test(key) && !disabled) {
         checkInput(key);
     }
 });
@@ -153,6 +173,7 @@ function loadKeyboard() {
         button.innerText = String.fromCharCode(i);
         button.classList.add("button");
         button.classList.add("input-button");
+        button.classList.add("button-" + String.fromCharCode(i));
         button.addEventListener("click", function () {
             if (gameInProgress) {
                 checkInput(String.fromCharCode(i));
@@ -166,8 +187,10 @@ function loadKeyboard() {
 $(".try-again").on("click", async function () {
     $(".result-screen").addClass("hidden");
     gameWord = await requestWord();
+    inputHistory = [];
     initiateWord();
     clearCanvas();
+    resetButtons();
     $(".input-button").removeClass("hidden");
     $(".game-string").removeClass("hidden");
     count = 0;
