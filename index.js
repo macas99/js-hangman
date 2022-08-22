@@ -68,9 +68,16 @@ function punish() {
     count++;
 
     if (count === 10) {
-        console.log("Game Over");
-        gameInProgress = false;
+        gameOver();
     }
+}
+
+function gameOver() {
+    gameInProgress = false;
+    $(".input-button").addClass("hidden");
+    $(".game-string").addClass("hidden");
+    $(".lost-screen").removeClass("hidden");
+    $(".answer").text(gameWord);
 }
 
 function drawCanvas() {
@@ -132,6 +139,7 @@ function loadKeyboard() {
         let button = document.createElement("button");
         button.innerText = String.fromCharCode(i);
         button.classList.add("button");
+        button.classList.add("input-button");
         button.addEventListener("click", function () {
             if (gameInProgress) {
                 checkInput(String.fromCharCode(i));
