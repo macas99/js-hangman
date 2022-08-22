@@ -45,7 +45,7 @@ function revealLetter(char) {
     $(".game-string").text(newGameString);
 
     if (newGameString === gameWord.toUpperCase()) {
-        gameInProgress = false;
+        gameWon();
     }
 
 }
@@ -60,7 +60,6 @@ function getIndexes(char) {
 }
 
 function punish() {
-    console.log("PUNISHING - COUNT: " + count + "NOW: " + Object.values(drawCanvas())[count]);
     Object.values(drawCanvas())[count]();
     count++;
 
@@ -73,7 +72,18 @@ function gameOver() {
     gameInProgress = false;
     $(".input-button").addClass("hidden");
     $(".game-string").addClass("hidden");
-    $(".lost-screen").removeClass("hidden");
+    $(".game-result").text("You Lost!");
+    $(".result-screen").removeClass("hidden");
+    $(".answer").text(gameWord);
+}
+
+function gameWon() {
+    gameInProgress = false;
+    $(".input-button").addClass("hidden");
+    $(".game-string").addClass("hidden");
+    $(".game-result").text("You Won!");
+    $(".try-again").text("Play Again");
+    $(".result-screen").removeClass("hidden");
     $(".answer").text(gameWord);
 }
 
@@ -154,7 +164,7 @@ function loadKeyboard() {
 }
 
 $(".try-again").on("click", async function () {
-    $(".lost-screen").addClass("hidden");
+    $(".result-screen").addClass("hidden");
     gameWord = await requestWord();
     initiateWord();
     clearCanvas();
