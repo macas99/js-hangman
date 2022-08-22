@@ -62,7 +62,7 @@ canvas {
 }
 
 .result-screen {
-  margin-bottom: 31px;
+  margin-bottom: 76px;
 }
 
 .answer {
@@ -101,4 +101,10 @@ canvas {
   height: 3em;
   width: 3em;
   justify-content: center;
+}
+
+@media only screen and (max-width: 450px) {
+  .result-screen {
+    margin-bottom: 0;
+  }
 }
