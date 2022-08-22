@@ -62,7 +62,7 @@ canvas {
 }
 
 .result-screen {
-  margin-bottom: 19px;
+  margin-bottom: 31px;
 }
 
 .answer {
@@ -98,7 +98,7 @@ canvas {
 }
 
 #mouse-input button {
-  height: 2.7em;
+  height: 3em;
   width: 2.4em;
   justify-content: center;
 }

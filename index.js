@@ -7,10 +7,10 @@ let gameInProgress = false;
 let inputHistory = [];
 
 async function requestWord() {
-    const resp = await fetch("https://random-words-api.vercel.app/word/noun");
-    const jsonData = await resp.json();
-    return jsonData[0].word;
-    // return "Connoisseur";
+    // const resp = await fetch("https://random-words-api.vercel.app/word/noun");
+    // const jsonData = await resp.json();
+    // return jsonData[0].word;
+    return "Connoisseur";
 }
 
 function initiateWord() {
