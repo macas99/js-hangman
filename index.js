@@ -5,13 +5,11 @@ let gameWord = "";
 let count = 0;
 let gameInProgress = false;
 
-function requestWord() {
-    // var xmlHttp = new XMLHttpRequest();
-    // check if hyphenated
-    // xmlHttp.open("GET", "https://random-words-api.vercel.app/word/noun", false);
-    // xmlHttp.send(null);
-    // return JSON.parse(xmlHttp.responseText)[0].word;
-    return "Test";
+async function requestWord() {
+    // const resp = await fetch("https://random-words-api.vercel.app/word/noun");
+    // const jsonData = await resp.json();
+    // return jsonData[0].word;
+    return "tete";
 }
 
 function initiateWord() {
@@ -48,7 +46,6 @@ function revealLetter(char) {
 
     if (newGameString === gameWord.toUpperCase()) {
         gameInProgress = false;
-        console.log("WON");
     }
 
 }
@@ -63,7 +60,7 @@ function getIndexes(char) {
 }
 
 function punish() {
-    console.log("punishing: " + count);
+    console.log("PUNISHING - COUNT: " + count + "NOW: " + Object.values(drawCanvas())[count]);
     Object.values(drawCanvas())[count]();
     count++;
 
@@ -84,6 +81,7 @@ function drawCanvas() {
     let ctx = canvas.getContext("2d");
     ctx.lineWidth = 2;
     ctx.strokeStyle = '#FFFFFF';
+    ctx.beginPath();
 
     function drawLine(x1, y1, x2, y2) {
         ctx.moveTo(x1, y1);
@@ -117,6 +115,11 @@ function drawCanvas() {
     return { frame1, frame2, frame3, frame4, head, body, arm1, arm2, leg1, leg2 };
 }
 
+function clearCanvas() {
+    let ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 document.addEventListener("keydown", function (event) {
     let key = event.key;
 
@@ -125,9 +128,9 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-$(".start-game").on("click", function () {
+$(".start-game").on("click", async function () {
     $(this).attr("hidden", true);
-    gameWord = requestWord();
+    gameWord = await requestWord();
     initiateWord();
     $(".game").removeClass("hidden");
     gameInProgress = true;
@@ -149,3 +152,14 @@ function loadKeyboard() {
 
     }
 }
+
+$(".try-again").on("click", async function () {
+    $(".lost-screen").addClass("hidden");
+    gameWord = await requestWord();
+    initiateWord();
+    clearCanvas();
+    $(".input-button").removeClass("hidden");
+    $(".game-string").removeClass("hidden");
+    count = 0;
+    gameInProgress = true;
+});
