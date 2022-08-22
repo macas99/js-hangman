@@ -99,14 +99,6 @@ canvas {
 
 #mouse-input button {
   height: 3em;
-  width: 2.4em;
+  width: 3em;
   justify-content: center;
-  text-align: -webkit-center;
-}
-
-@media only screen and (max-width: 480px) {
-  #mouse-input button {
-    display: flex;
-    padding-top: 5px;
-  }
 }
