@@ -7,10 +7,10 @@ let gameInProgress = false;
 let inputHistory = [];
 
 async function requestWord() {
-    // const resp = await fetch("https://random-words-api.vercel.app/word/noun");
-    // const jsonData = await resp.json();
-    // return jsonData[0].word;
-    return "Connoisseur";
+    const resp = await fetch("https://random-words-api.vercel.app/word/noun");
+    const jsonData = await resp.json();
+    return jsonData[0].word;
+    // return "Connoisseur";
 }
 
 function initiateWord() {
@@ -152,14 +152,15 @@ function resetButtons() {
 
 document.addEventListener("keydown", function (event) {
     let key = event.key;
-    let disabled = inputHistory.includes(key.toUpperCase);
-    if (gameInProgress && key.length === 1 && /[a-zA-Z]/.test(key) && !disabled) {
+
+    if (gameInProgress && key.length === 1 && /[a-zA-Z]/.test(key) && !inputHistory.includes(key.toUpperCase())) {
         checkInput(key);
     }
 });
 
 $(".start-game").on("click", async function () {
     $(this).attr("hidden", true);
+    $(".title-screen").attr("hidden", true);
     gameWord = await requestWord();
     initiateWord();
     $(".game").removeClass("hidden");
@@ -185,12 +186,14 @@ function loadKeyboard() {
 }
 
 $(".try-again").on("click", async function () {
+    $("#canvas").addClass("hidden");
     $(".result-screen").addClass("hidden");
     gameWord = await requestWord();
     inputHistory = [];
     initiateWord();
     clearCanvas();
     resetButtons();
+    $("#canvas").removeClass("hidden");
     $(".input-button").removeClass("hidden");
     $(".game-string").removeClass("hidden");
     count = 0;

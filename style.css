@@ -2,6 +2,8 @@ body {
   background-color: turquoise;
   font-family: 'Raleway', sans-serif;
   color: #FFFFFF;
+  text-align: center;
+  align-items: center;
 }
 
 canvas {
@@ -10,6 +12,11 @@ canvas {
   border: white dashed 3px;
 }
 
+.title-screen {
+  margin-top: 70px;
+  font-weight: bold;
+  font-size: 60px;
+}
 .game {
   width: 85vw;
   max-width: 350px;
@@ -35,10 +42,7 @@ canvas {
 }
 
 .start-game {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 100px;
   border: 2px solid #FFFFFF;
   padding: 15px 30px;
   font-size: 15px;
