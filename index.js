@@ -1,5 +1,13 @@
 const canvas = document.getElementById("canvas");
 const keyboard = document.getElementById("mouse-input");
+// in case API doesent work
+const backupWords = [
+    "message", "community", "game", "parent", "water", "coach", "girl", "crime", "company", "minute",
+    "body", "force", "door", "line", "others", "discover", "best", "wealthy", "group", "history",
+    "besides", "bench", "life", "grocery", "recommendation", "place", "morning", "child", "laboratory", "world",
+    "guy", "information", "highway", "service", "father", "launch", "person", "interpret", "meanwhile", "change",
+    "opening", "educator", "job", "nurse", "name", "adviser", "problem", "movement", "time", "state"
+];
 
 let gameWord = "";
 let count = 0;
@@ -7,10 +15,14 @@ let gameInProgress = false;
 let inputHistory = [];
 
 async function requestWord() {
-    const resp = await fetch("https://random-words-api.vercel.app/word/noun");
-    const jsonData = await resp.json();
-    return jsonData[0].word;
-    // return "Connoisseur";
+    try {
+        const resp = await fetch("https://random-words-api.vercel.app/word/noun");
+        const jsonData = await resp.json();
+        return jsonData[0].word;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
 }
 
 function initiateWord() {
@@ -161,7 +173,7 @@ document.addEventListener("keydown", function (event) {
 $(".start-game").on("click", async function () {
     $(this).attr("hidden", true);
     $(".title-screen").attr("hidden", true);
-    gameWord = await requestWord();
+    await setGameWord();
     initiateWord();
     $(".game").removeClass("hidden");
     gameInProgress = true;
@@ -188,7 +200,7 @@ function loadKeyboard() {
 $(".try-again").on("click", async function () {
     $("#canvas").addClass("hidden");
     $(".result-screen").addClass("hidden");
-    gameWord = await requestWord();
+    await setGameWord();
     inputHistory = [];
     initiateWord();
     clearCanvas();
@@ -199,3 +211,13 @@ $(".try-again").on("click", async function () {
     count = 0;
     gameInProgress = true;
 });
+
+async function setGameWord() {
+    let reqWord = await requestWord();
+    //check if hyphenated accented undefined or null
+    if (/^[a-zA-Z]+$/.test(reqWord) && !(reqWord == null)) {
+        gameWord = reqWord;
+    } else {
+        gameWord = backupWords[Math.floor(Math.random() * backupWords.length)];
+    }
+}
