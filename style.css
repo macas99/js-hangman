@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 body {

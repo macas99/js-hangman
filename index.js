@@ -14,6 +14,16 @@ let count = 0;
 let gameInProgress = false;
 let inputHistory = [];
 
+async function setGameWord() {
+    let reqWord = await requestWord();
+    //check if hyphenated accented undefined or null
+    if (/^[a-zA-Z]+$/.test(reqWord) && !(reqWord == null)) {
+        gameWord = reqWord;
+    } else {
+        gameWord = backupWords[Math.floor(Math.random() * backupWords.length)];
+    }
+}
+
 async function requestWord() {
     try {
         const resp = await fetch("https://random-words-api.vercel.app/word/noun");
@@ -62,7 +72,6 @@ function revealLetter(char) {
     if (newGameString === gameWord.toUpperCase()) {
         gameWon();
     }
-
 }
 
 function getIndexes(char) {
@@ -162,6 +171,22 @@ function resetButtons() {
     });
 }
 
+function loadKeyboard() {
+    for (let i = 65; i < 91; i++) {
+        let button = document.createElement("button");
+        button.innerText = String.fromCharCode(i);
+        button.classList.add("button");
+        button.classList.add("input-button");
+        button.classList.add("button-" + String.fromCharCode(i));
+        button.addEventListener("click", function () {
+            if (gameInProgress) {
+                checkInput(String.fromCharCode(i));
+            }
+        });
+        keyboard.append(button);
+    }
+}
+
 document.addEventListener("keydown", function (event) {
     let key = event.key;
 
@@ -180,23 +205,6 @@ $(".start-game").on("click", async function () {
     loadKeyboard();
 });
 
-function loadKeyboard() {
-    for (let i = 65; i < 91; i++) {
-        let button = document.createElement("button");
-        button.innerText = String.fromCharCode(i);
-        button.classList.add("button");
-        button.classList.add("input-button");
-        button.classList.add("button-" + String.fromCharCode(i));
-        button.addEventListener("click", function () {
-            if (gameInProgress) {
-                checkInput(String.fromCharCode(i));
-            }
-        });
-        keyboard.append(button);
-
-    }
-}
-
 $(".try-again").on("click", async function () {
     $("#canvas").addClass("hidden");
     $(".result-screen").addClass("hidden");
@@ -211,13 +219,3 @@ $(".try-again").on("click", async function () {
     count = 0;
     gameInProgress = true;
 });
-
-async function setGameWord() {
-    let reqWord = await requestWord();
-    //check if hyphenated accented undefined or null
-    if (/^[a-zA-Z]+$/.test(reqWord) && !(reqWord == null)) {
-        gameWord = reqWord;
-    } else {
-        gameWord = backupWords[Math.floor(Math.random() * backupWords.length)];
-    }
-}
